@@ -27,8 +27,67 @@ struct node{
 	int data;
 	struct node *next;
 };
-
+int total_days(int month, int year)
+{
+	int count = 0, i;
+	int range[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	for (i = 0; i<month - 1; i++)
+	{
+		if (i == 1)
+		{
+			if (year % 4 == 0)
+				count += 29;
+			else
+				count += 28;
+		}
+		else
+			count += range[i];
+	}
+	return(count);
+}
 
 int between_days(struct node *date1head, struct node *date2head){
-	return -1;
+	int i = 0, d1 = 0, d2 = 0, m1 = 0, m2 = 0, y1 = 0, y2 = 0,count=0;
+	while (i < 8)
+	{
+		if (i< 2)
+		{
+			d1 = (d1 * 10) + date1head->data;
+			d2 = (d2 * 10) + date2head->data;
+			date1head = date1head->next;
+			date2head = date2head->next;
+		}
+		else if (i < 4)
+		{
+			m1 = (m1 * 10) + date1head->data;
+			m2 = (m2 * 10) + date2head->data;
+			date1head = date1head->next;
+			date2head = date2head->next;
+		}
+		else
+		{
+			y1 = (y1 * 10) + date1head->data;
+			y2 = (y2 * 10) + date2head->data;
+			date1head = date1head->next;
+			date2head = date2head->next;
+		}
+		i++;
+	}
+	count = 0;
+	
+	for (i = y1; i<y2; i++)
+	{
+		if (i % 4 == 0)
+			 count+= 366;
+		else
+			count += 365;
+	}
+	count -= total_days(m1, y1);
+	count -= d1;
+	count += total_days(m2, y2);
+	count += d2;
+	if (count<0)
+		count = count*-1;
+
+	return count;
 }
