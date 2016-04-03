@@ -45,9 +45,10 @@ int total_days(int month, int year)
 	}
 	return(count);
 }
-
 int between_days(struct node *date1head, struct node *date2head){
-	int i = 0, d1 = 0, d2 = 0, m1 = 0, m2 = 0, y1 = 0, y2 = 0,count=0;
+	if (date1head == NULL || date2head == NULL)
+		return -1;
+	int i = 0, d1 = 0, d2 = 0, m1 = 0, m2 = 0, y1 = 0, y2 = 0, count = 0;
 	while (i < 8)
 	{
 		if (i< 2)
@@ -74,11 +75,11 @@ int between_days(struct node *date1head, struct node *date2head){
 		i++;
 	}
 	count = 0;
-	
+
 	for (i = y1; i<y2; i++)
 	{
 		if (i % 4 == 0)
-			 count+= 366;
+			count += 366;
 		else
 			count += 365;
 	}
@@ -89,5 +90,5 @@ int between_days(struct node *date1head, struct node *date2head){
 	if (count<0)
 		count = count*-1;
 
-	return count;
+	return count-1;
 }
